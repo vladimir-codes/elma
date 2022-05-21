@@ -94,10 +94,12 @@ async function getTasks() {
 
       const currentElement = evt.target.parentNode;
 
-      const activeElement = document.querySelector(`.selected`);    
-
+      let activeElement = document.querySelector(`.selected`);    
+      if (currentElement.classList.contains('TrashZone'))
+      {
+        activeElement.remove();
+      }
       if (currentElement.querySelector('.FirstColumn')) {
-        activeElement.style.display= 'none';
         let StartDate = new Date(activeElement.querySelector('.description').querySelector('.StartDate').textContent).getDate();
         let EndDate = new Date(activeElement.querySelector('.description').querySelector('.EndDate').textContent).getDate();
         let CurrentRow = currentElement.parentNode.children;
@@ -106,12 +108,12 @@ async function getTasks() {
         for (const key in CurrentRow) {
           if (i >= StartDate && i <= EndDate) {
             let CloneTask = activeElement.cloneNode(true);
-            CloneTask.style.display = 'block';
             CurrentRow[key].appendChild(CloneTask);
             CloneTask.classList.remove(`selected`);
           }
           i++;
         }
+        activeElement.remove();
       }
 
       evt.target.classList.remove(`selected`); //Удалить класс selected
